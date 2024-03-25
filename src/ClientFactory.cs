@@ -12,33 +12,31 @@ namespace YetAnotherGarminConnectClient
 {
     public class ClientFactory
     {
-
         private static ILogger _logger => NLog.LogManager.GetLogger("ClientFactory");
-        public static IClient Create(string consumerKey, string consumerSecret)
+
+        public static IClient Create(string consumerKey, string consumerSecret, string garminDomain = "garmin.com")
         {
             Logger.CreateLogger();
-            var client = new Client(consumerKey, consumerSecret);
+            var client = new Client(consumerKey, consumerSecret, garminDomain);
             return client;
         }
 
-        public static async Task<IClient> Create()
+        public static async Task<IClient> Create(string garminDomain = "garmin.com")
         {
             Logger.CreateLogger();
             var keys = await URLs.GARMIN_API_CONSUMER_KEYS
-                            .GetAsync()
-                            .ReceiveJson<GarminApiConsumerKeys>();
+                .GetAsync()
+                .ReceiveJson<GarminApiConsumerKeys>();
 
-            if(keys == null)
+            if (keys == null)
             {
                 _logger.Error($"Could not parse consumer keys from url: {URLs.GARMIN_API_CONSUMER_KEYS}");
                 throw new Exception($"Could not parse consumer keys from url: {URLs.GARMIN_API_CONSUMER_KEYS}");
-                
             }
+
             _logger.Info("Consumer Keys received");
-            var client = Create(keys.ConsumerKey, keys.ConsumerSecret);
+            var client = Create(keys.ConsumerKey, keys.ConsumerSecret, garminDomain);
             return client;
         }
-
-       
     }
 }

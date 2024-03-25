@@ -12,6 +12,7 @@ namespace YetAnotherGarminConnectClient
         private AuthStatus _authStatus;
         private string _mfaCsrfToken = string.Empty;
         CookieJar _cookieJar = null;
+        
 
         private static readonly object _commonQueryParams = new
         {
@@ -30,12 +31,11 @@ namespace YetAnotherGarminConnectClient
 
 
         private Client() { }
-        internal Client(string consumerKey, string consumerSecret)
+        internal Client(string consumerKey, string consumerSecret,string garminDomain)
         {
-
+            URLs.GARMIN_DOMAIN = garminDomain;
             _consumerKey = consumerKey;
             _consumerSecret = consumerSecret;
-
         }
 
         public bool IsOAuthValid

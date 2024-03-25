@@ -10,6 +10,10 @@ namespace YAGCC.Commands.UploadBodyComposition
 {
     public sealed class UploadBodyCompositionCommandSettings : CommandSettings
     {
+        [CommandOption("-S|--garmin_server")]
+        [Description("Set your garmin_server")]
+        public string GarminServer { set; get; } = "garmin.com";
+
         [CommandOption("-w|--weight")]
         [Description("Set your weight in kilograms")]
         public float Weight { set; get; }
